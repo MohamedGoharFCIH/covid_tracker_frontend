@@ -1,5 +1,8 @@
 import axios from "axios";
+
 const API_URL = process.env.API_URL;
+
+
 const register = (username, email, password) => {
     return axios.post(API_URL + "signup", {
         username,
@@ -7,6 +10,7 @@ const register = (username, email, password) => {
         password,
     });
 };
+
 const login = (username, password) => {
     return axios
         .post(API_URL + "login", {
@@ -20,9 +24,11 @@ const login = (username, password) => {
             return response.token;
         });
 };
+
 const logout = () => {
     localStorage.removeItem("token");
 };
+
 const getCurrentUser = () => {
     
     return axios
@@ -31,10 +37,12 @@ const getCurrentUser = () => {
             return response.data;
         });
 };
+
 const AuthService = {
     register,
     login,
     logout,
     getCurrentUser,
 };
+
 export default AuthService;
