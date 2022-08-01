@@ -15,7 +15,8 @@ import Patients from './components/Patients';
 function App() {
   return (
     <BrowserRouter>
-     
+      <UserProvider>
+        <NavBar />
         <div className="container mt-3">
           <Routes>
             <Route path='/' element={<Home />} />
@@ -26,7 +27,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
           </Routes>
         </div>
-  
+      </UserProvider>
     </BrowserRouter>
   );
 }
