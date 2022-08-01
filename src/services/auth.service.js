@@ -1,42 +1,50 @@
 import axios from "axios";
 
-const API_URL = process.env.API_URL;
+const API_URL = process.env.REACT_APP_API_URL;
 
 
-const register = (username, email, password) => {
-    return axios.post(API_URL + "signup", {
-        username,
+const register = (name, email, password) => {
+    return axios.post(API_URL + "signup/", {
+        name,
         email,
         password,
+    }).then(response=>{
+        return response.data
     });
 };
 
-const login = (username, password) => {
+const login = (email, password) => {
     return axios
-        .post(API_URL + "login", {
-            username,
+        .post(API_URL + "login/", {
+            email,
             password,
         })
         .then((response) => {
-            if (response.token) {
-                localStorage.setItem("token", JSON.stringify(response.token));
+            let token = response.data.token
+            let user = response.data.user
+            if (token) {
+                localStorage.setItem("token", JSON.stringify(token));
+                localStorage.setItem("user", JSON.stringify(user));
             }
-            return response.token;
-        });
+            return response.data;
+        })
 };
 
 const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
 };
 
 const getCurrentUser = () => {
-    
-    return axios
-        .get(API_URL + "user")
-        .then((response) => {
-            return response.data;
-        });
+    let user = localStorage.getItem("user");
+    if(!user){
+        return null
+    }
+    return JSON.parse(user);
 };
+
+
 
 const AuthService = {
     register,
